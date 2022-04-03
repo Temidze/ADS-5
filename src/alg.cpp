@@ -33,7 +33,7 @@ int HelpF(char Th) {
 }
 
 std::string infx2pstfx(std::string inf) {
-    TStack<char, 100> stack1;
+    TStack<char, 100> stackO;
     std::string out;
     for (int i = 0; i < inf.length(); i++) {
         //циферки
@@ -48,43 +48,43 @@ std::string infx2pstfx(std::string inf) {
         //Не циферки как не странно
         else {
             if (HelpF(inf[i]) == 0) {
-                stack1.push(inf[i]);
+                stackO.push(inf[i]);
             }
-            else if (HelpF(inf[i]) > HelpF(stack1.get())) {
-                stack1.push(inf[i]);
+            else if (HelpF(inf[i]) > HelpF(stackO.get())) {
+                stackO.push(inf[i]);
             }
-            else if (stack1.isEmpty()) {
-                stack1.push(inf[i]);
+            else if (stackO.isEmpty()) {
+                stackO.push(inf[i]);
             }
             else if (HelpF(inf[i]) == 1) {
-                while (0 != HelpF(stack1.get())) {
-                    out += stack1.get();
+                while (0 != HelpF(stackO.get())) {
+                    out += stackO.get();
                     out += ' ';
-                    stack1.pop();
+                    stackO.pop();
                 }
-                stack1.pop();
+                stackO.pop();
             }
-            else if (HelpF(inf[i]) <= HelpF(stack1.get())) {
-                while (!stack1.isEmpty() && 1 < HelpF(stack1.get())) {
-                    out += stack1.get();
+            else if (HelpF(inf[i]) <= HelpF(stackO.get())) {
+                while (!stackO.isEmpty() && 1 < HelpF(stackO.get())) {
+                    out += stackO.get();
                     out += ' ';
-                    stack1.pop();
+                    stackO.pop();
                 }
-                stack1.push(inf[i]);
+                stackO.push(inf[i]);
             }
         }
     }
-    while (stack1.isEmpty() == false) {
-        out += stack1.get();
+    while (stackO.isEmpty() == false) {
+        out += stackO.get();
         out += ' ';
-        stack1.pop();
+        stackO.pop();
     }
     out.pop_back();
     return out;
 }
 
 int eval(std::string pref) {
-    TStack<int, 100> stack2;
+    TStack<int, 100> stackT;
     std::string output;
     int c = 0;
     for (int i = 0; i < pref.length(); i++) {
@@ -94,30 +94,30 @@ int eval(std::string pref) {
             i += 1;
         }
         if (check != "") {
-            stack2.push(std::stoi(check));
+            stackT.push(std::stoi(check));
         }
         if (2 == pr(pref[i]) || 3 == pr(pref[i])) {
-            int a = stack2.get();
-            stack2.pop();
-            int b = stack2.get();
-            stack2.pop();
+            int a = stackT.get();
+            stackT.pop();
+            int b = stackT.get();
+            stackT.pop();
             if ('-' == pref[i]) {
                 c = b - a;
-                stack2.push(c);
+                stackT.push(c);
             }
             else if ('+' == pref[i]) {
                 c = a + b;
-                stack2.push(c);
+                stackT.push(c);
             }
             else if ('*' == pref[i]) {
                 c = a * b;
-                stack2.push(c);
+                stackT.push(c);
             }
             else if ('/' == pref[i]) {
                 c = b / a;
-                stack2.push(c);
+                stackT.push(c);
             }
         }
     }
-    return stack2.get();
+    return stackT.get();
 }
