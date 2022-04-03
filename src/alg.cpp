@@ -8,22 +8,16 @@ int HelpF(char Th) {
     {
     case '(':
         return 0;
-        break;
     case ')':
         return 1;
-        break;
     case '+':
         return 2;
-        break;
     case '-':
         return 2;
-        break;
     case '*':
         return 3;
-        break;
     case '/':
         return 3;
-        break;
     case ' ':
         return 4;
     default:
@@ -37,29 +31,29 @@ std::string infx2pstfx(std::string inf) {
   std::string output;
   int i = 0;
   for (; i < inf.length(); i++) {
-    if (5 == pr(inf[i])) {
+    if (5 == HelpF(inf[i])) {
       output += inf[i];
-      while (5 == pr(inf[i + 1]) && (i + 1) < inf.length()) {
+      while (5 == HelpF(inf[i + 1]) && (i + 1) < inf.length()) {
         output += inf[i + 1];
         i += 1;
       }
       output += ' ';
     } else {
-      if (0 == pr(inf[i])) {
+      if (0 == HelpF(inf[i])) {
         stack.push(inf[i]);
-      } else if (pr(inf[i]) > pr(stack.get())) {
+      } else if (HelpF(inf[i]) > HelpF(stack.get())) {
         stack.push(inf[i]);
       } else if (stack.isEmpty()) {
         stack.push(inf[i]);
-      } else if (1 == pr(inf[i])) {
-        while (0 != pr(stack.get())) {
+      } else if (1 == HelpF(inf[i])) {
+        while (0 != HelpF(stack.get())) {
           output += stack.get();
           output += ' ';
           stack.pop();
         }
         stack.pop();
-      } else if (pr(inf[i]) <= pr(stack.get())) {
-        while (!stack.isEmpty() && 1 < pr(stack.get())) {
+      } else if (HelpF(inf[i]) <= HelpF(stack.get())) {
+        while (!stack.isEmpty() && 1 < HelpF(stack.get())) {
           output += stack.get();
           output += ' ';
           stack.pop();
